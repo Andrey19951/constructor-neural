@@ -113,8 +113,6 @@ InteractionTypes.forEach((element) => {
     iterations: 20000,
     errorThresh: 0.011
   });
-  
-  fs.writeFileSync('trainedNetwork.json', JSON.stringify(net.toJSON()));
 
   const PredictionResult = (string) => {
     result = net.run(ConvertToVector(string));
@@ -130,54 +128,3 @@ InteractionTypes.forEach((element) => {
   
     return maxKey;
   };
-console.log(PredictionResult('Interaction (Tabs/Vertical Tabs with a Graphic on the L/R)'));
-/*   const testData = [
-    { input: 'Accordion',output:'AccordionRegular'},
-    { input: 'Tabs',output:'TabsRegular'},
-    { input: 'Tab',output:'TabsRegular'},
-    { input: 'Dots',output:'DotsRegular'},
-    { input: 'Flip Cards',output:'FlipCards'},
-    { input: 'Scroll Cards',output:'ScrollCards'},
-    { input: 'Carousel',output:'Carousels'},
-    { input: 'Hotspots',output:'Hotspots'},
-    { input: 'Step-by-Step',output:'StepbyStep'},
-    { input: 'Interaction Accordion',output:'AccordionRegular'},
-    { input: 'Interaction (Accordion with a Graphic on the L/R)',output:'AccordionLeft'},
-    { input: 'Interaction (Accordion with a Graphic on the L)',output:'AccordionLeft'},
-    { input: 'Interaction (Accordion with a Graphic on the R)',output:'AccordionRight'},
-    { input: 'Interaction Tabs',output:'TabsRegular'},
-    { input: 'Interaction (Tabs Picture Left)',output:'TabsLeft'},
-    { input: 'Interaction (Tabs Picture Right)',output:'TabsRight'},
-    { input: 'Interaction (Tabs with a Graphic on the L)',output:'TabsLeft'},
-    { input: 'Interaction (Tabs with a Graphic on the R)',output:'TabsRight'},
-    { input: 'Interaction (Vertical Tabs with a Graphic on the L)',output:'VerticalTabs'},
-    { input: 'Interaction (Vertical Tabs with a Graphic on the R)',output:'VerticalTabs'},
-    { input: 'Interaction Dots',output:'DotsRegular'},
-    { input: 'Interaction (Vertical Dots)',output:'DotsVerticalRegular'},
-    { input: 'Interaction (Vertical Dots with a Graphic on the L)',output:'DotsVerticalLeft'},
-    { input: 'Interaction (Vertical Dots with a Graphic on the R)',output:'DotsVerticalRight'},
-    { input: 'Interaction (Dots with a Graphic on the L)',output:'DotsRegularLeft'},
-    { input: 'Interaction (Dots with a Graphic on the R)',output:'DotsRegularRight'},
-    { input: 'Interaction Flip Cards',output:'FlipCards'},
-    { input: 'Interaction Scroll Cards',output:'ScrollCards'},
-    { input: 'Interaction Carousel',output:'Carousels'},
-    { input: 'Interaction Hotspots',output:'Hotspots'},
-    { input: 'Interaction Step-by-Step',output:'StepbyStep'}   
-  ];
-
-let correctPredictions = 0;
-for (let i = 0; i < testData.length; i++) {
-  const input = testData[i].input;
-  const expectedOutput = testData[i].output;
-  const predictedOutput = PredictionResult(input);
-  console.log(predictedOutput)
-  if (predictedOutput[0] === expectedOutput[0]) {
-    correctPredictions++;
-  }
-}
-
-const accuracy = correctPredictions / testData.length;
-console.log('Accuracy:', accuracy);
-
-
-module.exports = PredictionResult; */

@@ -101,7 +101,7 @@ net.train([
 });
 
 
-console.log(net.run(ConvertToVector('MsDP/Extra (Dots/Vertical Dots)')));
+console.log(net.run(ConvertToVector('Flip Cards with text only')));
 console.log(net.run(ConvertToVector(' Interaction (Tabs Picture Left) ')));
 console.log(net.run(ConvertToVector('Interaction (Flip Cards)')));
 console.log(net.run(ConvertToVector('Accordion with a Graphic on the L')));
