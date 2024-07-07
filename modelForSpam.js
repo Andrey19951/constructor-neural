@@ -31,3 +31,5 @@ const inputToPredict = "вредитель1";
 const output = net.run(inputToPredict); // ожидаемый результат: [1], т.е. вредитель
 
 console.log(output); // Вывод результата предсказания
+
+

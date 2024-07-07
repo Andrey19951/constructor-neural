@@ -1,82 +1,75 @@
 const brain = require("brain.js");
-const fs = require('fs');
 
-/* Model for only intercation typ (without modifications) */
+// Функция нормализации строк
 const StringtoArray = (string) => {
   string = string.replace(/[^a-zA-Z0-9\s]/g, "");
   string = string.toLowerCase();
-  transformed = string.split(" ");
+  let transformed = string.split(" ");
   return transformed;
 };
 
+// Создание словаря слов
 const WordDictionary = {};
-
 const InteractionTypes = [
-  "Accordion",
-  "Tabs",
-  "Tab",
-  "Dots",
-  "Flip Cards",
-  "Scroll Cards",
-  "Carousel",
-  "Hotspots",
-  "Step-by-Step",
-  "Interaction Accordion",
-  "Interaction (Accordion with a Graphic on the L/R)",
-  "Interaction (Accordion with a Graphic on the L)",
-  "Interaction (Accordion with a Graphic on the R)",
-  "Interaction Tabs",
-  "Interaction (Tabs Picture Left)",
-  "Interaction (Tabs Picture Right)",
-  "Interaction (Tabs with a Graphic on the L)",
-  "Interaction (Tabs with a Graphic on the R)",
-  "Interaction (Vertical Tabs with a Graphic on the L)",
-  "Interaction (Vertical Tabs with a Graphic on the R)",
-  "Interaction Dots",
-  "Interaction (Vertical Dots)",
-  "Interaction (Vertical Dots with a Graphic on the L)",
-  "Interaction (Vertical Dots with a Graphic on the R)",
-  "Interaction (Dots with a Graphic on the L)",
-  "Interaction (Dots with a Graphic on the R)",
-  "Interaction Flip Cards",
-  "Interaction Scroll Cards",
-  "Interaction Carousel",
-  "Interaction Hotspots",
-  "Interaction Step-by-Step",
-];
+    "Accordion",
+    "Tabs",
+    "Tab",
+    "Dots",
+    "Flip Cards",
+    "Scroll Cards",
+    "Carousel",
+    "Hotspots",
+    "Step-by-Step",
+    "Interaction Accordion",
+    "Interaction (Accordion with a Graphic on the L/R)",
+    "Interaction (Accordion with a Graphic on the L)",
+    "Interaction (Accordion with a Graphic on the R)",
+    "Interaction Tabs",
+    "Interaction (Tabs Picture Left)",
+    "Interaction (Tabs Picture Right)",
+    "Interaction (Tabs with a Graphic on the L)",
+    "Interaction (Tabs with a Graphic on the R)",
+    "Interaction (Vertical Tabs with a Graphic on the L)",
+    "Interaction (Vertical Tabs with a Graphic on the R)",
+    "Interaction Dots",
+    "Interaction (Vertical Dots)",
+    "Interaction (Vertical Dots with a Graphic on the L)",
+    "Interaction (Vertical Dots with a Graphic on the R)",
+    "Interaction (Dots with a Graphic on the L)",
+    "Interaction (Dots with a Graphic on the R)",
+    "Interaction Flip Cards",
+    "Interaction Scroll Cards",
+    "Interaction Carousel",
+    "Interaction Hotspots",
+    "Interaction Step-by-Step",
+  ];
 
 
-InteractionTypes.forEach((element) => {
-    let tokens = StringtoArray(element);
-    tokens.forEach((token) => {
-      if (!WordDictionary[token]) {
-        WordDictionary[token] = 0;
-      }
-      WordDictionary[token]++;
-    });
+
+// Создание словаря слов из обучающей выборки
+
+InteractionTypes.forEach(element => {
+  let tokens = StringtoArray(element);
+  tokens.forEach(token => {
+    if (!WordDictionary[token]) {
+      WordDictionary[token] = 0;
+    }
+    WordDictionary[token]++;
   });
+});
 
-
-
-  const ConvertToVector = (text) => {
-    let textTokens = StringtoArray(text);
-    let vector = {};
-    textTokens.forEach((token) => {
-      if (WordDictionary[token]) {
-        vector[token] = WordDictionary[token];
-        vector[token]++;
-      }
-    });
-    
-    return vector;
-  }
-
-
-  const net = new brain.NeuralNetwork({
-    hiddenLayers: [20]
+// Преобразование текста в вектор
+const ConvertToVector = (text) => {
+  let textTokens = StringtoArray(text);
+  let vector = [];
+  Object.keys(WordDictionary).forEach(word => {
+    vector.push(textTokens.includes(word) ? 1 : 0);
   });
-  
-  net.train([
+  return vector;
+};
+
+// Подготовка обучающего набора данных
+const trainingData = [
     { input: ConvertToVector('Accordion'), output: { AccordionRegular: 1 } },
     { input: ConvertToVector('Tabs'), output: { TabsRegular: 1 } },
     { input: ConvertToVector('Tab'), output: { TabsRegular: 1 } },
@@ -109,14 +102,20 @@ InteractionTypes.forEach((element) => {
     { input: ConvertToVector('Interaction Hotspots'), output: { Hotspots: 1 } },
     { input: ConvertToVector('Interaction Step-by-Step'), output: { StepbyStep: 1 } },
     
-  ] , {
-    iterations: 20000,
-    errorThresh: 0.011
-  });
-  
-  /* fs.writeFileSync('trainedNetwork.json', JSON.stringify(net.toJSON())); */
+  ];
 
-  const PredictionResult = (string) => {
+// Создание и обучение нейронной сети
+const net = new brain.NeuralNetwork({
+  learningRate: 0.01
+});
+
+net.train(trainingData, {
+  iterations: 20000,
+  log: true,
+  logPeriod: 500,
+  errorThresh: 0.011
+});
+const PredictionResult = (string) => {
     result = net.run(ConvertToVector(string));
     maxKey = null;
     maxValue = 0;
@@ -130,8 +129,9 @@ InteractionTypes.forEach((element) => {
   
     return maxKey;
   };
-console.log(net.run(ConvertToVector('Tabs with text and a picture on the left')));
-/*   const testData = [
+/* console.log(PredictionResult('Tabs with text and a picture on the left')) */
+
+const testData = [
     { input: 'Accordion',output:'AccordionRegular'},
     { input: 'Tabs',output:'TabsRegular'},
     { input: 'Tab',output:'TabsRegular'},
@@ -178,6 +178,3 @@ for (let i = 0; i < testData.length; i++) {
 
 const accuracy = correctPredictions / testData.length;
 console.log('Accuracy:', accuracy);
-
-
-module.exports = PredictionResult; */
