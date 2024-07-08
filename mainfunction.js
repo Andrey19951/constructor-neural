@@ -24,6 +24,7 @@ const InteractionTypes = [
     "Interaction (Accordion with a Graphic on the L/R)",
     "Interaction (Accordion with a Graphic on the L)",
     "Interaction (Accordion with a Graphic on the R)",
+    "Interaction Tabs Regular",
     "Interaction Tabs",
     "Interaction (Tabs Picture Left)",
     "Interaction (Tabs Picture Right)",
@@ -42,6 +43,8 @@ const InteractionTypes = [
     "Interaction Carousel",
     "Interaction Hotspots",
     "Interaction Step-by-Step",
+    "Picture (L with text)",
+    "Picture (R with text)"
   ];
 
 
@@ -80,6 +83,8 @@ const trainingData = [
     { input: ConvertToVector('Hotspots'), output: { Hotspots: 1 } },
     { input: ConvertToVector('Step-by-Step'), output: { StepbyStep: 1 } },
     { input: ConvertToVector('Interaction Accordion'), output: { AccordionRegular: 1 } },
+    { input: ConvertToVector('Interaction (Accordion Picture Left)'), output: { AccordionLeft: 1 } },
+    { input: ConvertToVector('Interaction (Accordion Picture Right)'), output: { AccordionRight: 1 } },
     { input: ConvertToVector('Interaction (Accordion with a Graphic on the L/R)'), output: { AccordionLeft: 1 } },
     { input: ConvertToVector('Interaction (Accordion with a Graphic on the L)'), output: { AccordionLeft: 1 } },
     { input: ConvertToVector('Interaction (Accordion with a Graphic on the R)'), output: { AccordionRight: 1 } },
@@ -101,11 +106,26 @@ const trainingData = [
     { input: ConvertToVector('Interaction Carousel'), output: { Carousels: 1 } },
     { input: ConvertToVector('Interaction Hotspots'), output: { Hotspots: 1 } },
     { input: ConvertToVector('Interaction Step-by-Step'), output: { StepbyStep: 1 } },
-    
+    { input: ConvertToVector('Picture (L with text)'), output: { PictureLeft: 1 } },
+    { input: ConvertToVector('Picture (Left with text)'), output: { PictureLeft: 1 } },
+    { input: ConvertToVector('Picture (R with text)'), output: { PictureRight: 1 } },
+    { input: ConvertToVector('Picture (Right with text)'), output: { PictureRight: 1 } },
+    { input: ConvertToVector('Picture (L/R with text)'), output: { PictureLeft: 1 } },
+    { input: [
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0
+      ], output: {notInteraction: 0}},
+      { input: ConvertToVector('Never'), output: { notInteraction: 1 } },
+      { input: ConvertToVector('Accomplished'), output: { notInteraction: 1 } },
+      { input: ConvertToVector('Tested'), output: { notInteraction: 1 } },
+
+
   ];
 
 // Создание и обучение нейронной сети
 const net = new brain.NeuralNetwork({
+  hiddenLayers: [20],
   learningRate: 0.01
 });
 
@@ -113,8 +133,9 @@ net.train(trainingData, {
   iterations: 20000,
   log: true,
   logPeriod: 500,
-  errorThresh: 0.011
+  errorThresh: 0.005
 });
+
 const PredictionResult = (string) => {
     result = net.run(ConvertToVector(string));
     maxKey = null;
@@ -129,7 +150,13 @@ const PredictionResult = (string) => {
   
     return maxKey;
   };
-/* console.log(PredictionResult('Tabs with text and a picture on the left')) */
+
+
+console.log(PredictionResult('Small Dots'));
+
+
+
+/* Проверка точности
 
 const testData = [
     { input: 'Accordion',output:'AccordionRegular'},
@@ -162,8 +189,16 @@ const testData = [
     { input: 'Interaction Scroll Cards',output:'ScrollCards'},
     { input: 'Interaction Carousel',output:'Carousels'},
     { input: 'Interaction Hotspots',output:'Hotspots'},
-    { input: 'Interaction Step-by-Step',output:'StepbyStep'}   
+    { input: 'Effective business communication is important for successful business operations and growth. It allows businesses to convey information accurately, make decisions quickly and efficiently, and solve problems in a timely manner. It also helps build relationships with stakeholders, including customers, employees, and suppliers.',output:'notInteraction'},
+    { input: 'If you are responsible for communications for a specific practice or location, topics will often come from your stakeholders based',output:'notInteraction'},
+    { input: 'asdasdas asdsada qw121213 54543543435 sdfsdfsdffsd',output:'notInteraction'},
+    { input: '',output:'notInteraction'}  
   ];
+
+
+
+
+
 
 let correctPredictions = 0;
 for (let i = 0; i < testData.length; i++) {
@@ -177,4 +212,21 @@ for (let i = 0; i < testData.length; i++) {
 }
 
 const accuracy = correctPredictions / testData.length;
-console.log('Accuracy:', accuracy);
+console.log('Accuracy:', accuracy);  */
+
+
+/* для обнаружения спама */
+
+function test2 (str) {
+    for (i = 0; i < spamWords.length; i++) {
+        console.log(spamWords[i])
+        if (str.includes(spamWords[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/*  регулярочка для спама с GD, GR
+/(GD|GR)\s*(\:|\s).*(graphic)/i  */
