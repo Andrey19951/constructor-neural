@@ -1,4 +1,7 @@
 const brain = require("brain.js");
+const fs = require('fs');
+
+
 
 // Функция нормализации строк
 const StringtoArray = (string) => {
@@ -71,7 +74,7 @@ const ConvertToVector = (text) => {
   return vector;
 };
 
-// Подготовка обучающего набора данных
+// Подготовка обучающего набора данных (Нужно чтобы распределение было равномерным, т.е. одинаковое количество примеров для каждого класса)
 const trainingData = [
     { input: ConvertToVector('Accordion'), output: { AccordionRegular: 1 } },
     { input: ConvertToVector('Tabs'), output: { TabsRegular: 1 } },
@@ -152,7 +155,17 @@ const PredictionResult = (string) => {
   };
 
 
-console.log(PredictionResult('Small Dots'));
+ let data = fs.readFileSync('arrWithoutSpam.json', 'utf8');
+ arrfromTiny = JSON.parse(data);
+ 
+
+
+  arrfromTiny.forEach(el => {
+    result = PredictionResult(el);
+    if (result == 'notInteraction') {
+      console.log(el + ' ' + result);
+    }
+  });
 
 
 
@@ -230,3 +243,6 @@ function test2 (str) {
 
 /*  регулярочка для спама с GD, GR
 /(GD|GR)\s*(\:|\s).*(graphic)/i  */
+
+
+
