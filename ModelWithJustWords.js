@@ -251,9 +251,11 @@ const PredictionResult = (net , string) => {
   return maxKey;
 };
 
-fs.writeFileSync('trainedNetwork.json', JSON.stringify(net.toJSON()));
+console.log(PredictionResult(net, 'Interaction (Accordion)'));
 
-module.exports = PredictionResult;
+/* fs.writeFileSync('trainedNetwork.json', JSON.stringify(net.toJSON()));
+
+module.exports = PredictionResult; */
 
 /* const testData = [
   { input: "Accordion", output: "AccordionRegular" },

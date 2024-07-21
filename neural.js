@@ -150,7 +150,7 @@ const PredictionResult = (net , string) => {
     return maxKey;
   };
 
-
+console.log(PredictionResult(currentNet, 'Interaction (Tabs/Carousel?)'));
 // Загружаем предварительно обученную сеть из файла
 /* const trainedNetwork = fs.readFileSync('trainedNetwork.json', 'utf8');
 const net = new brain.recurrent.LSTM();
@@ -162,4 +162,79 @@ function transformInteractionName (str) {
     str = str.toLowerCase();
     return str;
 } */
-console.log(PredictionResult(currentNet, 'Tabs with text and a picture on the left'));
+/*     const testData = [
+        { input: "Accordion", output: "AccordionRegular" },
+        { input: "Tabs", output: "TabsRegular" },
+        { input: "Tab", output: "NotInteraction" },
+        { input: "Dots", output: "DotsRegular" },
+        { input: "Flip Cards", output: "FlipCardsRegular" },
+        { input: "Scroll Cards", output: "ScrollCardsRegular" },
+        { input: "Carousel", output: "CarouselRegular" },
+        { input: "Hotspots", output: "Hotspots" },
+        { input: "Step-by-Step", output: "SBSRegular" },
+        { input: "Interaction Accordion", output: "AccordionRegular" },
+        {
+          input: "Interaction (Accordion with a Graphic on the L/R)",
+          output: "AccordionRegular",
+        },
+        {
+          input: "Interaction (Accordion with a Graphic on the L)",
+          output: "AccordionLeft",
+        },
+        {
+          input: "Interaction (Accordion with a Graphic on the R)",
+          output: "AccordionRight",
+        },
+        { input: "Interaction Tabs", output: "TabsRegular" },
+        { input: "Interaction (Tabs Picture Left)", output: "TabsLeft" },
+        { input: "Interaction (Tabs Picture Right)", output: "TabsRight" },
+        { input: "Interaction (Tabs with a Graphic on the L)", output: "TabsLeft" },
+        { input: "Interaction (Tabs with a Graphic on the R)", output: "TabsRight" },
+        {
+          input: "Interaction (Vertical Tabs with a Graphic on the L)",
+          output: "VertTabsLeft",
+        },
+        {
+          input: "Interaction (Vertical Tabs with a Graphic on the R)",
+          output: "VertTabsRight",
+        },
+        { input: "Interaction Dots", output: "DotsRegular" },
+        { input: "Interaction (Vertical Dots)", output: "VerticalDotsRegular" },
+        {
+          input: "Interaction (Vertical Dots with a Graphic on the L)",
+          output: "VerticalDotsLeft",
+        },
+        {
+          input: "Interaction (Vertical Dots with a Graphic on the R)",
+          output: "VerticalDotsRight",
+        },
+        {
+          input: "Interaction (Dots with a Graphic on the L)",
+          output: "DotsLeft",
+        },
+        {
+          input: "Interaction (Dots with a Graphic on the R)",
+          output: "DotsRight",
+        },
+        { input: "Interaction Flip Cards", output: "FlipCardsRegular" },
+        { input: "Interaction Scroll Cards", output: "ScrollCardsRegular" },
+        { input: "Interaction Carousel", output: "CarouselRegular" },
+        { input: "Interaction Hotspots", output: "HotspotsRegular" },
+        { input: "Interaction Step-by-Step", output: "SBSRegular" },
+      ];
+      
+      let correctPredictions = 0;
+      for (let i = 0; i < testData.length; i++) {
+        const input = testData[i].input;
+        const expectedOutput = testData[i].output;
+        const predictedOutput = PredictionResult(currentNet, input);
+        console.log(
+          `Input: ${input}, Expected: ${expectedOutput}, Predicted: ${predictedOutput}`
+        );
+        if (predictedOutput === expectedOutput) {
+          correctPredictions++;
+        }
+      }
+      
+      const accuracy = (correctPredictions / testData.length) * 100;
+      console.log(`Accuracy: ${accuracy}%`); */
