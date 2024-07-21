@@ -113,7 +113,7 @@ const trainingData = [
     { input: ConvertToVector('Picture (Left with text)'), output: { PictureLeft: 1 } },
     { input: ConvertToVector('Picture (R with text)'), output: { PictureRight: 1 } },
     { input: ConvertToVector('Picture (Right with text)'), output: { PictureRight: 1 } },
-    { input: ConvertToVector('Picture (L/R with text)'), output: { PictureLeft: 1 } },
+    { input: ConvertToVector('Picture (L/R with text)'), output: { PictureLeft: 1 } }, // нужно добавить в выборку, примеры, когда слова встречаются, но это не является интерактивом.
     { input: [
         0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -162,7 +162,7 @@ const PredictionResult = (string) => {
 
   arrfromTiny.forEach(el => {
     result = PredictionResult(el);
-    if (result == 'notInteraction') {
+    if (result !== 'notInteraction') {
       console.log(el + ' ' + result);
     }
   });
