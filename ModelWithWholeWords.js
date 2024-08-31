@@ -21,6 +21,7 @@ const InteractionTypes = [
   "Carousel",
   "Hotspots",
   "Step-by-Step",
+  "Step by Step",
   "Interaction Accordion",
   "Interaction (Accordion with a Graphic on the L/R)",
   "Interaction (Accordion with a Graphic on the L)",
@@ -43,6 +44,9 @@ const InteractionTypes = [
   "Interaction Carousel",
   "Interaction Hotspots",
   "Interaction Step-by-Step",
+  "Checkboxes",
+  "Multiple Choice",
+  "Quiz"
 ];
 
 
@@ -92,6 +96,7 @@ InteractionTypes.forEach((element) => {
     { input: ConvertToVector('Carousel'), output: { Carousels: 1 } },
     { input: ConvertToVector('Hotspots'), output: { Hotspots: 1 } },
     { input: ConvertToVector('Step-by-Step'), output: { StepbyStep: 1 } },
+    { input: ConvertToVector('Step by Step'), output: { StepbyStep: 1 } },
     { input: ConvertToVector('Interaction Accordion'), output: { AccordionRegular: 1 } },
     { input: ConvertToVector('Interaction (Accordion with a Graphic on the L/R)'), output: { AccordionLeft: 1 } },
     { input: ConvertToVector('Interaction (Accordion with a Graphic on the L)'), output: { AccordionLeft: 1 } },
@@ -114,6 +119,7 @@ InteractionTypes.forEach((element) => {
     { input: ConvertToVector('Interaction Carousel'), output: { Carousels: 1 } },
     { input: ConvertToVector('Interaction Hotspots'), output: { Hotspots: 1 } },
     { input: ConvertToVector('Interaction Step-by-Step'), output: { StepbyStep: 1 } },
+    { input: ConvertToVector('Interaction Step by Step'), output: { StepbyStep: 1 } },
     
   ] , {
     iterations: 25000,
@@ -137,7 +143,8 @@ InteractionTypes.forEach((element) => {
     return maxKey;
   };
 
-  /* const testData = [
+
+/*   const testData = [
     { input: 'Accordion',output:'AccordionRegular'},
     { input: 'Tabs',output:'TabsRegular'},
     { input: 'Tab',output:'TabsRegular'},

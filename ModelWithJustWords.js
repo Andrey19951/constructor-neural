@@ -171,6 +171,7 @@ let DataForNeural = [
     {input: ConvertToVector("Hotspots"),output: { HotspotsRegular: 1 }},
     {input: ConvertToVector("Hotspots"),output: { HotspotsRegular: 1 }},
     {input: ConvertToVector("Step-by-Step"),output: { SBSRegular: 1 }},
+    {input: ConvertToVector("Step by Step"),output: { SBSRegular: 1 }},
     {input: ConvertToVector("Accordion Left"),output: { AccordionLeft: 1 }},
     {input: ConvertToVector("Accordion Right"),output: { AccordionRight: 1 }},
     {input: ConvertToVector("Accordion L"),output: { AccordionLeft: 1 }},
@@ -257,7 +258,7 @@ console.log(PredictionResult(net, 'Interaction (Accordion)'));
 
 module.exports = PredictionResult; */
 
-/* const testData = [
+ const testData = [
   { input: "Accordion", output: "AccordionRegular" },
   { input: "Tabs", output: "TabsRegular" },
   { input: "Tab", output: "NotInteraction" },
@@ -322,7 +323,7 @@ let correctPredictions = 0;
 for (let i = 0; i < testData.length; i++) {
   const input = testData[i].input;
   const expectedOutput = testData[i].output;
-  const predictedOutput = PredictionResult(input);
+  const predictedOutput = PredictionResult(net, input);
   console.log(
     `Input: ${input}, Expected: ${expectedOutput}, Predicted: ${predictedOutput}`
   );
@@ -332,4 +333,4 @@ for (let i = 0; i < testData.length; i++) {
 }
 
 const accuracy = (correctPredictions / testData.length) * 100;
-console.log(`Accuracy: ${accuracy}%`); */
+console.log(`Accuracy: ${accuracy}%`); 
